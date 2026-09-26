@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechHub Store | Digital Gadgets by STEVE MUGI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-dark: #1a1f35;
+            --primary-light: #2d3748;
+            --accent: #00d9ff;
+            --accent-hover: #00b8d4;
+            --bg: #0f1117;
+            --text: #e8eef5;
+            --text-muted: #a8b2c1;
+            --border: #30363d;
+            --success: #3fb950;
+            --error: #f85149;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: var(--primary-dark);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-decoration: none;
+            letter-spacing: 0.05em;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+            flex: 1;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.2s;
+            font-size: 0.95rem;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--accent);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .cart-badge {
+            position: relative;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--accent);
+            color: var(--primary-dark);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .btn {
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--primary-dark);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: var(--primary-light);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-dark);
+            border-color: var(--accent);
+        }
+
+        .btn-danger {
+            background: var(--error);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            opacity: 0.9;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-light) 100%);
+            padding: 3rem 0;
+            margin-bottom: 3rem;
+            border-bottom: 2px solid var(--accent);
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+            letter-spacing: 0.05em;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .director-credit {
+            font-size: 0.9rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 1rem;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .product-card {
+            background: var(--primary-light);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1.5rem;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 217, 255, 0.1);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: var(--primary-dark);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-category {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .product-spec {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin: 0.5rem 0;
+        }
+
+        .product-price {
+            font-family: 'Courier New', monospace;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin: 1rem 0;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .product-actions button {
+            flex: 1;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            background: var(--primary-dark);
+            color: var(--text);
+            font-size: 0.95rem;
+            font-family: inherit;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(0, 217, 255, 0.1);
+        }
+
+        .form-container {
+            max-width: 500px;
+            margin: 2rem auto;
+            background: var(--primary-light);
+            padding: 2rem;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+        }
+
+        .auth-toggle {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .auth-toggle a {
+            color: var(--accent);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .cart-container {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .cart-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .cart-items {
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1.5rem;
+        }
+
+        .cart-item {
+            display: grid;
+            grid-template-columns: 80px 1fr 100px;
+            gap: 1rem;
+            align-items: center;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 1.5rem;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .cart-item-image {
+            width: 80px;
+            height: 80px;
+            background: var(--primary-dark);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .cart-summary {
+            background: var(--primary-light);
+            padding: 1.5rem;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .summary-total {
+            border-top: 1px solid var(--border);
+            padding-top: 1rem;
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-muted);
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .contact-item {
+            background: var(--primary-light);
+            padding: 1.5rem;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+        }
+
+        .contact-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-value {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--accent);
+            word-break: break-all;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease-out;
+            z-index: 2000;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 1rem;
+            }
+
+            main {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="#" class="logo" onclick="showSection('home'); return false;">TechHub Store</a>
+            <nav>
+                <a onclick="showSection('home'); return false;">Products</a>
+                <a onclick="showSection('contact'); return false;">Contact</a>
+                <a id="account-link" onclick="showSection('account'); return false;">Account</a>
+            </nav>
+            <div class="header-actions">
+                <div class="cart-badge" onclick="showSection('cart'); return false;">
+                    🛒
+                    <span class="cart-count" id="cart-count">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <div class="hero">
+                <h1>STEVE MUGI</h1>
+                <p>Premium Digital Gadgets Store</p>
+                <div class="director-credit">Founder & Director</div>
+            </div>
+
+            <h2 style="margin-top: 2rem; margin-bottom: 1rem;">Featured Products</h2>
+            <div class="products-grid" id="products-grid"></div>
+        </section>
+
+        <!-- Account Section -->
+        <section id="account" class="section">
+            <div class="form-container">
+                <div id="login-form">
+                    <h2 style="margin-bottom: 1.5rem; text-align: center;">Login to Your Account</h2>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="login-email" placeholder="your@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="login-password" placeholder="••••••••">
+                    </div>
+                    <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="login()">Login</button>
+                    <div class="auth-toggle">
+                        Don't have an account? <a onclick="toggleAuthForm()">Sign up here</a>
+                    </div>
+                </div>
+
+                <div id="signup-form" style="display: none;">
+                    <h2 style="margin-bottom: 1.5rem; text-align: center;">Create Your Account</h2>
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="signup-name" placeholder="John Doe">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="signup-email" placeholder="your@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="signup-password" placeholder="••••••••">
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input type="password" id="signup-confirm" placeholder="••••••••">
+                    </div>
+                    <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="signup()">Sign Up</button>
+                    <div class="auth-toggle">
+                        Already have an account? <a onclick="toggleAuthForm()">Login here</a>
+                    </div>
+                </div>
+
+                <div id="user-dashboard" style="display: none;">
+                    <h2 style="margin-bottom: 1.5rem;">Welcome, <span id="user-name"></span>!</h2>
+                    <p style="margin-bottom: 1.5rem; color: var(--text-muted);">Your account is active and ready for shopping.</p>
+                    <button class="btn btn-secondary" style="width: 100%; margin-bottom: 1rem;" onclick="showSection('home')">Continue Shopping</button>
+                    <button class="btn btn-danger" style="width: 100%;" onclick="logout()">Logout</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cart Section -->
+        <section id="cart" class="section">
+            <h2 style="margin-bottom: 1rem;">Shopping Cart</h2>
+            <div id="cart-content"></div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section">
+            <h2 style="margin-bottom: 1rem;">Get In Touch</h2>
+            <p style="color: var(--text-muted); margin-bottom: 2rem;">Contact us for inquiries, support, or partnership opportunities.</p>
+
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-label">Store Owner</div>
+                    <div class="contact-value">STEVE MUGI</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-label">Phone</div>
+                    <div class="contact-value">+254 101 076 285</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-label">Email</div>
+                    <div class="contact-value">stevodedrummer@gmail.com</div>
+                </div>
+            </div>
+
+            <div class="form-container" style="margin-top: 2rem;">
+                <h3 style="margin-bottom: 1.5rem;">Send us a Message</h3>
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input type="text" id="contact-name" placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label>Your Email</label>
+                    <input type="email" id="contact-email" placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Subject</label>
+                    <input type="text" id="contact-subject" placeholder="Inquiry about products">
+                </div>
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea id="contact-message" rows="5" placeholder="Tell us more..."></textarea>
+                </div>
+                <button class="btn btn-primary" style="width: 100%;" onclick="sendContactMessage()">Send Message</button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        class GadgetStore {
+            constructor() {
+                this.products = this.getProducts();
+                this.cart = JSON.parse(localStorage.getItem('cart')) || [];
+                this.user = JSON.parse(localStorage.getItem('user')) || null;
+                this.init();
+            }
+
+            getProducts() {
+                const defaultProducts = [
+                    { id: 1, name: 'MacBook Pro 16"', category: 'Laptop', price: 2499, emoji: '💻', specs: 'M3 Pro • 16GB RAM • 512GB SSD' },
+                    { id: 2, name: 'iPhone 15 Pro Max', category: 'Phone', price: 1199, emoji: '📱', specs: '6.7" Display • A17 Pro • 256GB' },
+                    { id: 3, name: 'Dell XPS 15', category: 'Laptop', price: 1899, emoji: '💻', specs: 'Intel i7 • 16GB RAM • RTX 4070' },
+                    { id: 4, name: 'Samsung Galaxy S24', category: 'Phone', price: 999, emoji: '📱', specs: '6.2" AMOLED • Snapdragon 8 Gen 3 • 256GB' },
+                    { id: 5, name: 'iPad Air', category: 'Tablet', price: 799, emoji: '📱', specs: '11" Display • M1 Chip • 128GB' },
+                    { id: 6, name: 'Apple Watch Ultra', category: 'Wearable', price: 799, emoji: '⌚', specs: 'Always-On Display • 36H Battery' },
+                    { id: 7, name: 'Google Pixel Buds Pro', category: 'Audio', price: 229, emoji: '🎧', specs: 'Active Noise Cancellation • 8H Battery' },
+                    { id: 8, name: 'Sony WH-1000XM5', category: 'Audio', price: 399, emoji: '🎧', specs: 'Premium ANC • 30H Battery • Wireless' },
+                    { id: 9, name: 'ASUS ROG Gaming Laptop', category: 'Laptop', price: 2199, emoji: '💻', specs: 'RTX 4090 • Intel i9 • 32GB RAM • 4K' },
+                    { id: 10, name: 'Samsung Curved Monitor', category: 'Monitor', price: 549, emoji: '🖥️', specs: '49" Ultrawide • 120Hz • Quantum Dot' },
+                    { id: 11, name: 'Mechanical Gaming Keyboard', category: 'Peripherals', price: 179, emoji: '⌨️', specs: 'RGB Lighting • Cherry MX Switches' },
+                    { id: 12, name: 'Logitech MX Master 3S', category: 'Peripherals', price: 99, emoji: '🖱️', specs: 'Precision Scrolling • Multi-Device Pairing' }
+                ];
+                return JSON.parse(localStorage.getItem('products')) || defaultProducts;
+            }
+
+            init() {
+                this.updateCartCount();
+                this.updateUI();
+            }
+
+            addToCart(productId) {
+                const product = this.products.find(p => p.id === productId);
+                const existingItem = this.cart.find(item => item.id === productId);
+
+                if (existingItem) {
+                    existingItem.quantity++;
+                } else {
+                    this.cart.push({ ...product, quantity: 1 });
+                }
+
+                this.saveCart();
+                this.showToast(`${product.name} added to cart!`);
+            }
+
+            removeFromCart(productId) {
+                this.cart = this.cart.filter(item => item.id !== productId);
+                this.saveCart();
+                this.showToast('Item removed from cart');
+            }
+
+            updateQuantity(productId, quantity) {
+                const item = this.cart.find(p => p.id === productId);
+                if (item) {
+                    item.quantity = Math.max(1, quantity);
+                    this.saveCart();
+                }
+            }
+
+            saveCart() {
+                localStorage.setItem('cart', JSON.stringify(this.cart));
+                this.updateCartCount();
+                this.renderCart();
+            }
+
+            updateCartCount() {
+                const count = this.cart.reduce((sum, item) => sum + item.quantity, 0);
+                document.getElementById('cart-count').textContent = count;
+            }
+
+            renderProducts() {
+                const grid = document.getElementById('products-grid');
+                grid.innerHTML = this.products.map(product => `
+                    <div class="product-card">
+                        <div class="product-image">${product.emoji}</div>
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-category">${product.category}</div>
+                        <div class="product-spec">${product.specs}</div>
+                        <div class="product-price">$${product.price.toLocaleString()}</div>
+                        <div class="product-actions">
+                            <button class="btn btn-primary" onclick="store.addToCart(${product.id})">Add to Cart</button>
+                            <button class="btn btn-secondary" onclick="store.showProductDetails(${product.id})">Details</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            renderCart() {
+                const cartContent = document.getElementById('cart-content');
+                
+                if (this.cart.length === 0) {
+                    cartContent.innerHTML = `
+                        <div class="empty-state">
+                            <p style="font-size: 3rem; margin-bottom: 1rem;">🛒</p>
+                            <p>Your cart is empty</p>
+                            <button class="btn btn-primary" style="margin-top: 1rem;" onclick="showSection('home')">Continue Shopping</button>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const total = this.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                
+                cartContent.innerHTML = `
+                    <div class="cart-container">
+                        <div class="cart-items">
+                            ${this.cart.map(item => `
+                                <div class="cart-item">
+                                    <div class="cart-item-image">${item.emoji}</div>
+                                    <div>
+                                        <div class="product-name">${item.name}</div>
+                                        <div class="product-category">${item.category}</div>
+                                        <div class="product-price" style="margin: 0.5rem 0;">$${item.price.toLocaleString()}</div>
+                                    </div>
+                                    <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: center;">
+                                        <input type="number" min="1" value="${item.quantity}" 
+                                            style="width: 60px; text-align: center;"
+                                            onchange="store.updateQuantity(${item.id}, this.value)">
+                                        <button class="btn btn-danger" style="padding: 0.3rem 0.8rem; font-size: 0.85rem;" 
+                                            onclick="store.removeFromCart(${item.id})">Remove</button>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="cart-summary">
+                            <div class="summary-row">
+                                <span>Subtotal</span>
+                                <span>$${total.toLocaleString()}</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Shipping</span>
+                                <span>$50</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Tax</span>
+                                <span>$${Math.round(total * 0.08).toLocaleString()}</span>
+                            </div>
+                            <div class="summary-total">
+                                <span>Total: $${(total + 50 + Math.round(total * 0.08)).toLocaleString()}</span>
+                            </div>
+                            <button class="btn btn-primary" style="width: 100%; margin-top: 1.5rem;">Checkout</button>
+                            <button class="btn btn-secondary" style="width: 100%; margin-top: 0.5rem;" onclick="showSection('home')">Continue Shopping</button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            updateUI() {
+                if (this.user) {
+                    document.getElementById('account-link').textContent = this.user.name;
+                    this.showUserDashboard();
+                } else {
+                    document.getElementById('account-link').textContent = 'Account';
+                    this.showLoginForm();
+                }
+                this.renderProducts();
+                this.renderCart();
+            }
+
+            showUserDashboard() {
+                document.getElementById('user-dashboard').style.display = 'block';
+                document.getElementById('login-form').style.display = 'none';
+                document.getElementById('signup-form').style.display = 'none';
+                document.getElementById('user-name').textContent = this.user.name;
+            }
+
+            showLoginForm() {
+                document.getElementById('user-dashboard').style.display = 'none';
+                document.getElementById('login-form').style.display = 'block';
+                document.getElementById('signup-form').style.display = 'none';
+            }
+
+            showSignupForm() {
+                document.getElementById('user-dashboard').style.display = 'none';
+                document.getElementById('login-form').style.display = 'none';
+                document.getElementById('signup-form').style.display = 'block';
+            }
+
+            showProductDetails(productId) {
+                const product = this.products.find(p => p.id === productId);
+                alert(`${product.name}\n\n${product.specs}\n
